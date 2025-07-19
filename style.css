@@ -1,0 +1,304 @@
+:root {
+  --primary-color: #dc3545;
+  --secondary-color: #6c757d;
+  --light-color: #f8f9fa;
+  --dark-color: #343a40;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--light-color);
+  margin: 0;
+  padding: 20px;
+  color: var(--dark-color);
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 20px auto;
+  background: white;
+  padding: 30px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  border-radius: 8px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.logo-container {
+  max-width: 200px;
+}
+
+.logo-container img {
+  max-height: 250px;
+  width: auto;
+}
+
+.company-info {
+  text-align: right;
+  flex: 1;
+}
+
+.company-info h2 {
+  margin-bottom: 5px;
+  color: var(--primary-color);
+}
+
+.company-details {
+  margin-top: 10px;
+  line-height: 1.5;
+}
+
+.form-section {
+  margin: 30px 0;
+  padding: 20px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+
+#taxInclusive {
+  width: 18px;
+  height: 18px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: var(--dark-color);
+}
+
+input, textarea, select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.form-row {
+  display: flex;
+  gap: 15px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+input:focus, textarea:focus {
+  border-color: var(--primary-color);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
+}
+
+.product-row {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+  align-items: center;
+}
+
+.product-row .desc {
+  flex: 3;
+}
+
+.product-row .qty, 
+.product-row .price {
+  flex: 1;
+}
+
+.product-row .remove-btn {
+  flex: 0 0 40px;
+  background: var(--secondary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.product-row .remove-btn:hover {
+  background: var(--dark-color);
+}
+
+#product-list {
+  margin: 25px 0;
+}
+
+.btn {
+  padding: 12px 24px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: background-color 0.3s, transform 0.2s;
+  margin-right: 10px;
+  margin-top: 10px;
+}
+
+.btn:hover {
+  background-color: #c82333;
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  background-color: var(--secondary-color);
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+}
+
+.preview-box {
+  background: #f9f9f9;
+  padding: 25px;
+  border-radius: 8px;
+  margin-top: 40px;
+  border: 1px solid #eee;
+}
+
+.preview-title {
+  color: var(--primary-color);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.preview-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+.preview-table th {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 12px;
+  text-align: left;
+}
+
+.preview-table td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+.preview-table tr:last-child td {
+  border-bottom: none;
+}
+
+.total-row {
+  font-weight: bold;
+  background-color: #f8f9fa;
+}
+
+.subtotal-row {
+  font-weight: bold;
+}
+
+.tax-row {
+  font-weight: bold;
+}
+
+.grandtotal-row {
+  font-weight: bold;
+  background-color: #f8f9fa;
+  font-size: 1.1em;
+}
+
+.info-box {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.company-box, .customer-box {
+  width: 48%;
+}
+
+.info-box h3 {
+  margin-top: 0;
+  color: var(--primary-color);
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.invoice-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  background: white;
+  padding: 15px;
+  border-radius: 5px;
+  border: 1px solid #eee;
+}
+
+.payment-info {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+.tax-section {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .company-info {
+    text-align: center;
+  }
+  
+  .product-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .product-row input {
+    width: 100%;
+  }
+  
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+  
+  .info-box {
+    flex-direction: column;
+  }
+  
+  .company-box, .customer-box {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+}

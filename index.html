@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invoice Generator - S&R Engineering</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo-container">
+        <img src="images/S&R logo image.png" alt="Company Logo" id="companyLogo">
+      </div>
+      <div class="company-info">
+        <h2>INVOICE</h2>
+        <div class="company-details">
+          <strong>S&R ENGINEERING and RENOVATION PTE LTD</strong><br>
+          <span>Manager: Shafikul Islam</span><br>
+          <span>Phone: +65 9074 4822</span><br>
+          <span>Email: srengineeringandrenovationptel@gmail.com</span><br>
+          <span>UEN: 202432744G</span><br>
+          <span>113 Eunos ave 3 #07-14, RM-03</span><br>
+          <span>Gordon Industrial Building, Singapore 409838</span>
+        </div>
+      </div>
+    </div>
+
+    <form id="invoiceForm">
+      <div class="form-section">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="invoiceNo">Invoice Number:</label>
+            <input type="text" id="invoiceNo" required>
+          </div>
+          <div class="form-group">
+            <label for="issueDate">Issue Date:</label>
+            <input type="date" id="issueDate" required>
+          </div>
+          <div class="form-group">
+            <label for="expiryDate">Due Date:</label>
+            <input type="date" id="expiryDate">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Customer Information</h3>
+        <div class="form-group">
+          <label for="customerName">Customer Name:</label>
+          <input type="text" id="customerName" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="customerAddress">Customer Address:</label>
+          <textarea id="customerAddress" rows="3" required></textarea>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="customerPhone">Phone Number:</label>
+            <input type="tel" id="customerPhone" required>
+          </div>
+          <div class="form-group">
+            <label for="customerEmail">Email Address:</label>
+            <input type="email" id="customerEmail" required>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="po">Purchase Order Number:</label>
+          <input type="text" id="po">
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Products/Services</h3>
+        <div id="product-list">
+          <div class="product-row">
+            <input type="text" placeholder="Description" class="desc" required>
+            <input type="number" placeholder="Quantity" class="qty" min="1" value="1" required>
+            <input type="number" placeholder="Price (SGD)" class="price" min="0" step="0.01" required>
+            <button type="button" class="remove-btn" onclick="removeProductRow(this)" disabled>×</button>
+          </div>
+        </div>
+        <button type="button" class="btn btn-secondary" onclick="addProductRow()">+ Add Product</button>
+        
+        <div class="form-group" style="margin-top: 30px;">
+          <label for="remarks">Remarks:</label>
+          <textarea id="remarks" rows="3"></textarea>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Tax Information</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="taxRate">Tax Rate (%):</label>
+            <input type="number" id="taxRate" min="0" max="100" step="0.01" value="8">
+          </div>
+          <div class="form-group">
+            <label for="taxRegistration">GST Registration No:</label>
+            <input type="text" id="taxRegistration" placeholder="e.g. M90345678X">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>
+            <input type="checkbox" id="taxInclusive" checked> Prices include tax
+          </label>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Payment Information</h3>
+        <p>
+          <strong>Bank Name:</strong> UOB Bank<br>
+          <strong>Account No:</strong> 7153002995<br>
+          <strong>Account Name:</strong> S&R ENGINEERING and RENOVATION PTE LTD
+        </p>
+      </div>
+
+      <div class="form-section">
+        <button type="button" class="btn" onclick="generatePreview()">Preview Invoice</button>
+        <button type="button" class="btn" onclick="generatePDF()">Download PDF</button>
+        <button type="reset" class="btn btn-secondary">Clear Form</button>
+      </div>
+    </form>
+
+    <div class="preview-box" id="preview" style="display: none;">
+      <h3 class="preview-title">INVOICE</h3>
+      <div id="previewContent"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
