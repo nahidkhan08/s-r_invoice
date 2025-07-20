@@ -217,7 +217,7 @@ async function generatePDF() {
     creator: 'S&R Engineering Invoice Generator'
   });
 
-    // Add company logo to PDF (top-right corner)
+  // Add company logo to PDF (top-right corner)
   try {
     const logoImg = document.getElementById('companyLogo');
     if (logoImg && logoImg.src) {
@@ -247,86 +247,84 @@ async function generatePDF() {
   doc.rect(15, 30, 180, 50);
   
   // Company Information (Left side - 85mm width)
-doc.setFontSize(12);
-doc.setTextColor(0, 0, 0);
-doc.setFont(undefined, 'bold');
-doc.text("From:", 20, 35);
-doc.setFont(undefined, 'normal');
+  doc.setFontSize(12);
+  doc.setTextColor(0, 0, 0);
+  doc.setFont(undefined, 'bold');
+  doc.text("From:", 20, 35);
+  doc.setFont(undefined, 'normal');
 
-const companyInfo = [
-  "Manager: Shafikul Islam",
-  "Phone: +65 9074 4822",
-  "Email: srengineeringandrenovationptel@gmail.com"
-];
+  const companyInfo = [
+    "Manager: Shafikul Islam",
+    "Phone: +65 9074 4822",
+    "Email: srengineeringandrenovationptel@gmail.com"
+  ];
 
-let companyY = 40;
-companyInfo.forEach(line => {
-  doc.text(line, 20, companyY);
+  let companyY = 40;
+  companyInfo.forEach(line => {
+    doc.text(line, 20, companyY);
+    companyY += 5;
+  });
+
+  // Add company name in bold
+  doc.setFont(undefined, 'bold');
+  doc.text("S&R ENGINEERING and RENOVATION PTE LTD", 20, companyY);
   companyY += 5;
-});
 
-// Add company name in bold
-doc.setFont(undefined, 'bold');
-doc.text("S&R ENGINEERING and RENOVATION PTE LTD", 20, companyY);
-companyY += 5;
+  // Continue with remaining info in normal weight
+  doc.setFont(undefined, 'normal');
+  const companyInfoRemaining = [
+    "UEN: 202432744G",
+    "113 Eunos ave 3 #07-14, RM-03",
+    "Gordon Industrial Building",
+    "Singapore 409838"
+  ];
 
-// Continue with remaining info in normal weight
-doc.setFont(undefined, 'normal');
-const companyInfoRemaining = [
-  "UEN: 202432744G",
-  "113 Eunos ave 3 #07-14, RM-03",
-  "Gordon Industrial Building",
-  "Singapore 409838"
-];
+  companyInfoRemaining.forEach(line => {
+    doc.text(line, 20, companyY);
+    companyY += 5;
+  });
 
-companyInfoRemaining.forEach(line => {
-  doc.text(line, 20, companyY);
-  companyY += 5;
-});
+  doc.setDrawColor(borderGray[0], borderGray[1], borderGray[2]);
+  doc.setLineWidth(0.5);
+  doc.line(119, 30, 119, 80);
 
-doc.setDrawColor(borderGray[0], borderGray[1], borderGray[2]); // Light gray color
-doc.setLineWidth(0.5); // Thin line
-doc.line(119, 30, 119, 80); // x, y_start, x, y_end
+  // Customer Information (Right side - starts at 110mm)
+  const customerName = document.getElementById('customerName').value;
+  const customerAddress = document.getElementById('customerAddress').value;
+  const customerPhone = document.getElementById('customerPhone').value;
+  const customerEmail = document.getElementById('customerEmail').value;
+  const po = document.getElementById('po').value;
 
-// Customer Information (Right side - starts at 110mm)
-const customerName = document.getElementById('customerName').value;
-const customerAddress = document.getElementById('customerAddress').value;
-const customerPhone = document.getElementById('customerPhone').value;
-const customerEmail = document.getElementById('customerEmail').value;
-const po = document.getElementById('po').value;
+  doc.setFont(undefined, 'bold');
+  doc.text("Bill To:", 122, 35);
+  doc.setFont(undefined, 'normal');
+  doc.text(customerName, 122, 40);
 
-doc.setFont(undefined, 'bold');
-doc.text("Bill To:", 122, 35);
-doc.setFont(undefined, 'normal');
-doc.text(customerName, 122, 40);
+  let customerY = 45;
 
-let customerY = 45;
+  // Add phone and email first
+  doc.text(`Phone: ${customerPhone}`, 122, customerY); customerY += 5;
+  doc.text(`Email: ${customerEmail}`, 122, customerY); customerY += 5;
 
-// Add phone and email first
-doc.text(`Phone: ${customerPhone}`, 122, customerY); customerY += 5;
-doc.text(`Email: ${customerEmail}`, 122, customerY); customerY += 5;
+  doc.setFont(undefined, 'bold');
+  doc.text("Address:", 122, customerY); customerY += 5;
+  doc.setFont(undefined, 'normal');
 
-doc.setFont(undefined, 'bold');
-doc.text("Address:", 122, customerY); customerY += 5;
-doc.setFont(undefined, 'normal');
+  // Split address into lines (max width 80mm) and add it last
+  const addressLines = doc.splitTextToSize(customerAddress, 80);
+  addressLines.forEach(line => {
+    doc.text(line, 122, customerY);
+    customerY += 5;
+  });
 
-// Split address into lines (max width 80mm) and add it last
-const addressLines = doc.splitTextToSize(customerAddress, 80);
-addressLines.forEach(line => {
-  doc.text(line, 122, customerY);
   customerY += 5;
-});
-
-customerY+=10;
-// Add purchase order if exists
-if (po) {
-  doc.setFont(undefined,'bold')
-  doc.text(`Purchase Order: `, 122, customerY); 
-  doc.setFont(undefined,'normal')
-  doc.text(`${po}`, 156,customerY); customerY += 5;
-}
-
-
+  // Add purchase order if exists
+  if (po) {
+    doc.setFont(undefined,'bold')
+    doc.text(`Purchase Order: `, 122, customerY); 
+    doc.setFont(undefined,'normal')
+    doc.text(`${po}`, 156, customerY); customerY += 5;
+  }
 
   // Invoice metadata box (matches preview)
   doc.setFillColor(255, 255, 255);
@@ -373,28 +371,74 @@ if (po) {
     tableBody.push([desc, qty, `S$ ${price.toFixed(2)}`, `S$ ${lineTotal.toFixed(2)}`]);
   }
 
-  doc.autoTable({
-    startY: 105,
-    head: [['Description', 'Qty', 'Unit Price', 'Total']],
-    body: tableBody,
-    theme: 'grid',
-    headStyles: { 
-      fillColor: primaryColor,
-      textColor: 255,
-      fontStyle: 'bold'
-    },
-    styles: { 
-      fontSize: 10,
-      cellPadding: 3,
-      overflow: 'linebreak'
-    },
-    columnStyles: {
-      0: { cellWidth: 'auto' },
-      1: { cellWidth: 20 },
-      2: { cellWidth: 30 },
-      3: { cellWidth: 30 }
-    },
-    margin: { left: 15 }
+  // Calculate remaining space before needing a new page
+  const startY = 105;
+  const pageHeight = 280; // A4 height in mm
+  const rowHeight = 7; // Approximate height of each row in mm
+  const footerHeight = 50; // Space needed for totals and footer
+  
+  // Calculate if we need multiple pages
+  const rowsPerPage = Math.floor((pageHeight - startY - footerHeight) / rowHeight);
+  
+  // Split table data into chunks that fit on each page
+  const tableDataChunks = [];
+  for (let i = 0; i < tableBody.length; i += rowsPerPage) {
+    tableDataChunks.push(tableBody.slice(i, i + rowsPerPage));
+  }
+
+  let currentPage = 0;
+  let finalY = startY;
+  
+  // Function to add header to new pages
+  const addPageHeader = () => {
+    doc.addPage();
+    currentPage++;
+    finalY = 20;
+    
+    // Add repeating header
+    doc.setFontSize(12);
+    doc.setTextColor(100);
+    doc.text(`Invoice ${invoiceNo} - Page ${currentPage + 1}`, 15, 15);
+    
+    // Add a line separator
+    doc.setDrawColor(200, 200, 200);
+    doc.line(15, 18, 195, 18);
+    
+    return 25; // Return new startY position
+  };
+
+  // Process each chunk of table data
+  tableDataChunks.forEach((chunk, chunkIndex) => {
+    if (chunkIndex > 0) {
+      finalY = addPageHeader();
+    }
+    
+    doc.autoTable({
+      startY: finalY,
+      head: chunkIndex === 0 ? [['Description', 'Qty', 'Unit Price', 'Total']] : [],
+      body: chunk,
+      theme: 'grid',
+      headStyles: { 
+        fillColor: primaryColor,
+        textColor: 255,
+        fontStyle: 'bold'
+      },
+      styles: { 
+        fontSize: 10,
+        cellPadding: 3,
+        overflow: 'linebreak'
+      },
+      columnStyles: {
+        0: { cellWidth: 'auto' },
+        1: { cellWidth: 20 },
+        2: { cellWidth: 30 },
+        3: { cellWidth: 30 }
+      },
+      margin: { left: 15 },
+      didDrawPage: (data) => {
+        finalY = data.cursor.y;
+      }
+    });
   });
 
   // Calculate tax and grand total
@@ -403,54 +447,56 @@ if (po) {
   
   if (taxRate > 0) {
     if (taxInclusive) {
-      // Calculate tax amount from inclusive prices
       taxAmount = subtotal - (subtotal / (1 + taxRate / 100));
-      grandTotal = subtotal; // Already includes tax
+      grandTotal = subtotal;
     } else {
-      // Calculate tax amount to be added
       taxAmount = subtotal * (taxRate / 100);
       grandTotal = subtotal + taxAmount;
     }
   }
 
+  // Check if we need a new page for the totals
+  if (finalY > pageHeight - 40) {
+    finalY = addPageHeader();
+  }
+
   // Subtotal, tax, and grand total rows
-  let finalY = doc.lastAutoTable.finalY + 10;
-  
-  // Subtotal
   doc.setFont(undefined, 'bold');
-  doc.text("Subtotal:", 150, finalY, { align: 'right' });
-  doc.text(`S$ ${subtotal.toFixed(2)}`, 190, finalY, { align: 'right' });
+  doc.text("Subtotal:", 150, finalY + 10, { align: 'right' });
+  doc.text(`S$ ${subtotal.toFixed(2)}`, 190, finalY + 10, { align: 'right' });
   doc.setFont(undefined, 'normal');
-  finalY += 5;
   
   // Tax row if applicable
   if (taxRate > 0) {
     doc.setFont(undefined, 'bold');
-    doc.text(`GST (${taxRate}%)${taxInclusive ? ' (Included)' : ''}:`, 150, finalY, { align: 'right' });
-    doc.text(`S$ ${taxAmount.toFixed(2)}`, 190, finalY, { align: 'right' });
+    doc.text(`GST (${taxRate}%)${taxInclusive ? ' (Included)' : ''}:`, 150, finalY + 15, { align: 'right' });
+    doc.text(`S$ ${taxAmount.toFixed(2)}`, 190, finalY + 15, { align: 'right' });
     
-    // Add GST registration number if provided
     if (taxRegistration) {
-      finalY += 5;
       doc.setFontSize(8);
-      doc.text(`GST Reg No: ${taxRegistration}`, 143, finalY, { align: 'right' });
+      doc.text(`GST Reg No: ${taxRegistration}`, 190, finalY + 18, { align: 'right' });
       doc.setFontSize(10);
     }
     
     doc.setFont(undefined, 'normal');
-    finalY += 7;
   }
   
   // Grand total
   doc.setFont(undefined, 'bold');
-  doc.setFontSize(16);
-  doc.text("Total Amount:", 150, finalY, { align: 'right' });
-  doc.text(`S$ ${grandTotal.toFixed(2)}`, 190, finalY, { align: 'right' });
+  doc.setFontSize(12);
+  doc.text("Total Amount:", 150, finalY + 25, { align: 'right' });
+  doc.text(`S$ ${grandTotal.toFixed(2)}`, 190, finalY + 25, { align: 'right' });
   doc.setFont(undefined, 'normal');
   doc.setFontSize(10);
 
-  // Remarks (matches preview)
-  finalY += 10;
+  // Check if we need a new page for remarks/payment info
+  if (finalY > pageHeight - 60) {
+    finalY = addPageHeader();
+  } else {
+    finalY += 30;
+  }
+
+  // Remarks
   const remarks = document.getElementById('remarks').value;
   if (remarks) {
     doc.setFillColor(lightGray[0], lightGray[1], lightGray[2]);
@@ -466,7 +512,12 @@ if (po) {
     finalY += 15 + (remarkLines.length * 5);
   }
 
-  // Payment information (matches preview)
+  // Check if we need a new page for payment info
+  if (finalY > pageHeight - 30) {
+    finalY = addPageHeader();
+  }
+
+  // Payment information
   doc.setFillColor(lightGray[0], lightGray[1], lightGray[2]);
   doc.rect(15, finalY, 180, 25, 'F');
   doc.setDrawColor(borderGray[0], borderGray[1], borderGray[2]);
