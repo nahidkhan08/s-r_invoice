@@ -306,11 +306,6 @@ let customerY = 45;
 doc.text(`Phone: ${customerPhone}`, 122, customerY); customerY += 5;
 doc.text(`Email: ${customerEmail}`, 122, customerY); customerY += 5;
 
-// Add purchase order if exists
-if (po) {
-  doc.text(`Purchase Order: ${po}`, 122, customerY); customerY += 5;
-}
-
 doc.setFont(undefined, 'bold');
 doc.text("Address:", 122, customerY); customerY += 5;
 doc.setFont(undefined, 'normal');
@@ -321,6 +316,16 @@ addressLines.forEach(line => {
   doc.text(line, 122, customerY);
   customerY += 5;
 });
+
+customerY+=10;
+// Add purchase order if exists
+if (po) {
+  doc.setFont(undefined,'bold')
+  doc.text(`Purchase Order: `, 122, customerY); 
+  doc.setFont(undefined,'normal')
+  doc.text(`${po}`, 156,customerY); customerY += 5;
+}
+
 
 
   // Invoice metadata box (matches preview)
@@ -336,17 +341,17 @@ addressLines.forEach(line => {
   // Calculate positions to prevent overlap
   const col1 = 20;
   const col2 = 78;
-  const col3 = 128;
+  const col3 = 134;
   
   doc.setFont(undefined, 'bold');
   doc.text("Invoice Number:", col1, 91);
   doc.text("Issue Date:", col2, 91);
-  if (expiryDate) doc.text("Expiry Date:", col3, 91);
+  if (expiryDate) doc.text("Due Date:", col3, 91);
   
   doc.setFont(undefined, 'normal');
   doc.text(invoiceNo, col1 + 34, 91);
-  doc.text(issueDate, col2 + 23, 91);
-  if (expiryDate) doc.text(expiryDate, col3 + 25, 91);
+  doc.text(issueDate, col2 + 24, 91);
+  if (expiryDate) doc.text(expiryDate, col3 + 21, 91);
 
   // Products table (matches preview)
   const descs = document.querySelectorAll('.desc');
