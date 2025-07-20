@@ -474,7 +474,7 @@ async function generatePDF() {
     
     if (taxRegistration) {
       doc.setFontSize(8);
-      doc.text(`GST Reg No: ${taxRegistration}`, 158, finalY + 18, { align: 'right' });
+      doc.text(`GST Reg No: ${taxRegistration}`, 145, finalY + 18, { align: 'right' });
       doc.setFontSize(10);
     }
     
